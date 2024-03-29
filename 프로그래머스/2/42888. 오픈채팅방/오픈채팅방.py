@@ -3,10 +3,7 @@ def solution(record):
     user_dic = {}
     for data in record :
         line = data.split()
-        if(line[1] in user_dic) :
-            if(line[0]=='Change' or line[0]=='Enter') :
-                user_dic[line[1]] = line[2]
-        else :
+        if(line[0]=='Change' or line[0]=='Enter') :
             user_dic[line[1]] = line[2]
             
     for data in record :
