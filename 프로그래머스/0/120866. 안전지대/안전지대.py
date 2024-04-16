@@ -11,6 +11,5 @@ def solution(board):
                         
     for y in range(len(board)):
         answer += board[y].count(0)
-    
-    print(board)
+        
     return answer
