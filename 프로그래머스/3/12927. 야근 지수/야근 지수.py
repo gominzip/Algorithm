@@ -9,7 +9,7 @@ def solution(n, works):
         else : dic[work] +=1
         
     while n>0:
-        max_key = max(dic.keys())
+        max_key = max(dic)
         
         if max_key == 0:
             return 0
@@ -32,7 +32,6 @@ def solution(n, works):
             
             n = 0
         
-    print(dic)
-    for key in dic.keys():
+    for key in dic:
         answer += (key**2)*dic[key]
     return answer
