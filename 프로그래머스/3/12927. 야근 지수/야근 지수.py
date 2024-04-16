@@ -1,5 +1,3 @@
-from queue import PriorityQueue
-
 def solution(n, works):
     answer = 0
     dic = {}
