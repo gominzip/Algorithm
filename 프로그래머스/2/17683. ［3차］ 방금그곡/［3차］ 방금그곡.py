@@ -10,7 +10,7 @@ def solution(m, musicinfos):
                 if i+1 != len(m) and m[i+1] == '#':
                     m_copy.append(m[i].lower()) # 샾의 경우에 소문자로 저장
                 else: m_copy.append(m[i]) 
-    m_copy = ','.join(m_copy)
+    m_copy = ''.join(m_copy)
     
     for infos in musicinfos:
         start,end,title,melody = infos.split(',')
@@ -24,9 +24,9 @@ def solution(m, musicinfos):
                 else: melodies.append(melody[j])       
                 
         if len(melodies) >= play_time:
-            musics.append([title,','.join(melodies[:play_time])])
+            musics.append([title,''.join(melodies[:play_time])])
         else:
-            musics.append([title,','.join((melodies*math.ceil(play_time/len(melodies)))[:play_time])])
+            musics.append([title,''.join((melodies*math.ceil(play_time/len(melodies)))[:play_time])])
             
     for music in musics:   
         if m_copy in music[1] and len(music[1]) > max_length:
