@@ -1,9 +1,7 @@
-def find_user(users, banned, path):
-    if len(banned) == 0:
-        global sets
+def find_user(users, banned, path, sets):
+    if not banned:
         path.sort()
-        sets.update([tuple(path)])
-        return
+        return [tuple(path)]
     
     for user in users:
         if len(banned[0]) == len(user):
@@ -13,18 +11,17 @@ def find_user(users, banned, path):
                     flag= False
                     break
             if flag:
-                new_users,new_banned,new_path = users[:],banned[:],path[:]
+                new_users = users[:]
                 new_users.remove(user)
-                new_banned.remove(banned[0])
-                new_path.append(user)
-                find_user(new_users,new_banned,new_path)
+                result = find_user(new_users,banned[1:],path+[user],sets)
+                if result:
+                    sets.update(result)
 
 def solution(user_id, banned_id):
     answer = 0
-    global sets
     sets = set()
     
-    find_user(user_id, banned_id,[])
+    find_user(user_id, banned_id, [], sets)
     answer = len(sets)
     
     return answer
