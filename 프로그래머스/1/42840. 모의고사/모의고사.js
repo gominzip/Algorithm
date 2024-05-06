@@ -5,21 +5,13 @@ function solution(answers) {
     const third =[3,3,1,1,2,2,4,4,5,5];
     
     for (let i=0; i<answers.length; i++){
-        if (answers[i] === i % 5 + 1){
-            score[0] ++;
-        }
-        if (answers[i] === second[i % 8]){
-            score[1] ++;
-        }
-        if (answers[i] === third[i % 10]){
-            score[2] ++;
-        }
+        if (answers[i] === i % 5 + 1) score[0] ++;
+        if (answers[i] === second[i % 8]) score[1] ++;
+        if (answers[i] === third[i % 10]) score[2] ++;
     }
     
-    max = Math.max(...score);
-    console.log(score,max)
     answer = score.reduce((acc, cur, idx) => {
-        if (cur === max) {
+        if (cur === Math.max(...score)) {
             acc.push(idx + 1);
         }
         return acc;
