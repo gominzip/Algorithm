@@ -1,8 +1,10 @@
+import sys
+input = sys.stdin.readline
+
 N = int(input())
 schedules = [list(map(int, input().split())) for _ in range(N)]
 
-schedules.sort(key=lambda x: x[0])    # 시작시간 오름차순
-schedules.sort(key=lambda x: x[1])    # 종료시간 오름차순
+schedules.sort(key=lambda x: (x[1],x[0]))
 
 count = 0
 time = 0
