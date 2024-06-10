@@ -1,0 +1,35 @@
+import sys
+input = sys.stdin.readline
+n,d = map(int,input().split())
+ants = sorted(list(map(int,input().split())))
+
+def binary_seach(n,d,ants):
+	start, end = 1, n		# 생존 최소&최대 마리
+	survive = 0
+	
+	while(start<=end):
+		mid = (start + end) // 2
+		count = 1
+		distance = 0
+		flag = False
+		
+		for i in range(1,n):
+			count +=1
+			distance += ants[i] - ants[i-1]
+			# 거리가 지름을 넘어가면 시작점의 개미 한마리 삭제
+			if distance > d:
+				distance -= ants[i-count+2] - ants[i-count+1]
+				count -= 1
+			if count == mid and distance <=d:
+				survive = mid
+				flag = True
+				break
+		if flag:	# 생존자 임의의 수 키워보기
+			start = mid +1
+		else:
+			end = mid -1
+			
+	return (n-survive)	# 제거할 수 반환
+
+print(binary_seach(n,d,ants))
+				
