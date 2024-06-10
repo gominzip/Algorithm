@@ -1,0 +1,24 @@
+# -*- coding: utf-8 -*-
+# UTF-8 encoding when using korean
+import sys
+sys.setrecursionlimit(10**7)
+
+input = sys.stdin.readline
+N = int(input())
+
+def factorial(N):
+	if N==1 or N==0:
+		return 1
+	else :
+		return N * factorial(N-1)
+
+def sumAll(number):
+	change = sum(map(int,list(str(number))))
+	return change
+
+result = factorial(N)
+
+while result > 9:
+	result = sumAll(result)
+	
+print(result)
