@@ -1,0 +1,35 @@
+import sys
+input = sys.stdin.readline
+n = int(input())
+trees = [list(map(int,input().split())) for _ in range(n)]
+
+# 주변에 물든 나무가 몇 그루인지 반환
+def findAroundMaple(trees,y,x):
+	count = 0
+	for dy, dx in [[y+1,x],[y-1,x],[y,x-1],[y,x+1]]:
+		if 0<=dy<len(trees) and 0<=dx<len(trees) and trees[dy][dx] == 0:
+			count +=1
+	return count
+
+def solution(n, trees):
+	day = 0
+	while(1):
+		change = []
+		# 물들지 않은 나무에 대한 정보 저장
+		for y in range(n):
+			for x in range(n):
+				if trees[y][x] !=0:
+					change.append((y,x,findAroundMaple(trees,y,x)))
+		# 모든 나무가 물든 경우		
+		if not change:
+			break
+		# 물들어 가는 나무
+		for cy,cx,count in change:
+			if trees[cy][cx] - count <=0:
+				trees[cy][cx] = 0
+			else:
+				trees[cy][cx] -= count
+		day +=1
+	return day
+
+print(solution(n, trees))
