@@ -1,0 +1,30 @@
+import sys
+input = sys.stdin.readline
+N,M = map(int,input().split())
+ground = list(map(int,input().split()))
+rain_info = [list(map(int,input().split())) for _ in range(M)]
+
+def solution(N, M, ground, rain_info):
+	for day in range(M):
+		start, end = rain_info[day]
+		
+		for curr in range(start-1, end):
+			ground[curr] +=1
+		
+		# 3의 배수가 되는 날
+		if (day+1) % 3 == 0:
+			drainage = set([])
+			# 2일 이내 데이터 확인
+			for i in range(day,day-3,-1):
+				start, end = rain_info[i]
+				for curr in range(start-1, end):
+					drainage.add(curr)
+			# 배수되는 집만 -1
+			for d in drainage:
+				ground[d] -=1
+
+	return ground
+	
+answer = solution(N, M, ground, rain_info)
+print(' '.join(map(str,answer)))
+
