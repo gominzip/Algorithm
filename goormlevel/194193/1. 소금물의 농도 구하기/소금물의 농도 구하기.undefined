@@ -1,0 +1,12 @@
+import sys, math
+input = sys.stdin.readline
+N, M = map(int,input().split())
+
+def soultion(N,M):
+	salt = N * 0.07
+	answer = (salt / (N + M))*100
+	return answer
+
+# 소수 2번째 자리까지만 출력 (버림)
+answer = math.floor(soultion(N,M)*100)/100
+print('{:.2f}'.format(answer))
