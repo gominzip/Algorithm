@@ -1,0 +1,40 @@
+import sys
+input = sys.stdin.readline
+n = int(input())
+direction = list(input().strip())
+score = list(map(int,input().split()))
+
+def solution(n,direction,score):
+	total = 1
+	block = {(0,0):1,}
+	path = [(0,0)]
+	
+	for i in range(n):
+		d = direction[i]
+		cx,cy = path[-1]
+		
+		if d == 'L':
+			cx -=1
+		elif d == 'R':
+			cx +=1
+		elif d == 'U':
+			cy +=1
+		else:
+			cy -=1
+		
+		# 이미 블록이 놓여져 있다면
+		if (cx,cy) in block and block[(cx,cy)] != 0:
+			while(path):
+				dx,dy = path.pop()	# 최근에 놓은 블록 제거
+				total -= block[(dx,dy)]
+				block[(dx,dy)] = 0
+				if dx == cx and dy == cy:
+					break
+		block[(cx,cy)] = score[i]
+		total += score[i]
+		path.append((cx,cy))
+	
+	return total
+	
+print(solution(n,direction,score))
+			
