@@ -1,0 +1,26 @@
+import sys
+input = sys.stdin.readline
+n = int(input())
+max_num = list(map(int,input().split()))
+counter = list(map(int,input().split()))
+click = int(input())
+
+def solution(n, max_num, counter, click):
+	for _ in range(click):
+		carry = 1
+		curr = n-1
+		while carry:
+			# 올림의 경우
+			if counter[curr] + 1 > max_num[curr]:
+				counter[curr] = 0
+				# 가장 왼쪽 숫자판인 경우
+				if curr == 0:
+					break
+				curr -=1
+			else:
+				counter[curr] +=1
+				carry = 0	
+	return counter
+
+answer = ''.join(map(str,solution(n, max_num, counter, click)))
+print(answer)
