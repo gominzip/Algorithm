@@ -10,18 +10,12 @@ def toKnumber(n,k):
     return result
 
 # 소수 판별 - 제곱근으로 범위를 좁혀서 효율성 높임
-def isPrime(num):
-    if num <= 1:
+def isPrime(n):
+    if n < 2:
         return False
-    if num <= 3:
-        return True
-    if num % 2 == 0 or num % 3 == 0:
-        return False
-    i = 5
-    while i * i <= num:
-        if num % i == 0 or num % (i + 2) == 0:
+    for i in range(2, int(n ** 0.5) + 1):
+        if n % i == 0:
             return False
-        i += 6
     return True
     
 def solution(n, k):
