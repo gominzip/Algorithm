@@ -1,7 +1,6 @@
 function solution(n, t, m, timetable) {
+    let answer = ""
     let current_bus = 9 * 60; // 첫 버스 시간
-    let last_bus = 9 * 60 + (n - 1) * t; // 막차 시간
-    let answer = toStrTime(last_bus); // 기본값을 막차 시간으로 설정
     let minute_table = toMinute(timetable);
 
     let bus_count = 0;
