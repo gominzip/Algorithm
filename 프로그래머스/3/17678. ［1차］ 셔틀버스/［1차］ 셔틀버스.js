@@ -1,56 +1,41 @@
 function solution(n, t, m, timetable) {
-    let answer = ""
-    let current_bus = 9 * 60; // 첫 버스 시간
-    let minute_table = toMinute(timetable);
+  var answer = "";
+  let latestCrew = null;
+  let firstBusTime = toMinute("09:00");
+  let currentTime = firstBusTime;
+  let remainingBuses = n;
 
-    let bus_count = 0;
-    let passenger_idx = 0;
+  timetable = timetable.map(toMinute);
+  timetable.sort((a, b) => a - b);
 
-    while (bus_count < n) {
-        let on_board = 0; // 탑승한 승객 수
-        while (on_board < m && passenger_idx < minute_table.length && minute_table[passenger_idx] <= current_bus) {
-            on_board++;
-            passenger_idx++;
-        }
+  while (remainingBuses > 0) {
+    let availableSeats = m;
+    remainingBuses--;
 
-        if (bus_count === n - 1) { // 막차인 경우
-            if (on_board === m) {
-                // 마지막 탑승 승객보다 1분 빨리 도착
-                answer = toStrTime(minute_table[passenger_idx - 1] - 1);
-            } else {
-                answer = toStrTime(current_bus);
-            }
-        }
-
-        current_bus += t;
-        bus_count++;
+    while (availableSeats > 0) {
+      if (timetable.length && timetable[0] <= currentTime) {
+        latestCrew = timetable.shift();
+        availableSeats--;
+      } else {
+        if (remainingBuses === 0) latestCrew = null; // 마지막 자리가 남는 경우
+        break;
+      }
     }
 
-    return answer;
+    currentTime += t;
+  }
+
+  answer = latestCrew ? latestCrew - 1 : firstBusTime + t * (n - 1);
+  return toString(answer);
 }
 
-function toMinute(timetable){
-    minute_table = [];
-    timetable.map(v=>{
-        arrival_time = 0
-        temp = v.split(':');
-        temp.map((v,i)=>{
-            v = Number(v);
-            i === 0 ? arrival_time += v * 60 : arrival_time += v;
-        });
-        minute_table.push(arrival_time);
-    })
-    // 정렬해서 반환
-    minute_table.sort((a,b)=> a-b);
-    return minute_table;
+function toMinute(t) {
+  const [h, m] = t.split(":").map(Number);
+  return h * 60 + m;
 }
 
-function toStrTime(minute){
-    time = [Math.floor(minute/60), minute % 60];
-    string = "";
-    time.map((v,i)=>{
-        string += v < 10 ? '0'+ v: ''+v;
-        if(i === 0) string += ':';
-    })
-    return string;
+function toString(minute) {
+  const h = Math.floor(minute / 60);
+  const m = minute % 60;
+  return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
 }
