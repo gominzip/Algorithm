@@ -1,25 +1,25 @@
-function find(x, parent){
-    if (parent[x] == x) return x
-    parent[x] = find(parent[x],parent)
-    return parent[x]
+function findParent(parent, x) {
+  if (parent[x] === x) return x;
+  return findParent(parent, parent[x]);
 }
-function union(a, b, parent){
-    const rootA = find(a,parent);
-    const rootB = find(b,parent);
-    
-    if (rootB > rootA) parent[rootB] = rootA
-    else parent[rootA] = rootB
+
+function union(parent, a, b) {
+  const rootA = findParent(parent, a);
+  const rootB = findParent(parent, b);
+  if (rootA < rootB) parent[rootB] = rootA;
+  else parent[rootA] = rootB;
 }
+
 function solution(n, costs) {
-    var answer = 0;
-    costs.sort((a,b)=>a[2]-b[2]);
-    parent = [...new Array(n)].map((_,i)=>i);
-    
-    for (let i = 0; i<costs.length; i++){
-        if (find(costs[i][0],parent) !== find(costs[i][1],parent)){
-            union(costs[i][0],costs[i][1],parent);
-            answer += costs[i][2]
-        }
+  var answer = 0;
+  const parent = Array.from({length: n}, (_, i) => i);
+  costs = costs.sort((a, b) => a[2] - b[2]);
+
+  for (const [a, b, cost] of costs) {
+    if (findParent(parent, parent[a]) !== findParent(parent, parent[b])) {
+      union(parent, a, b);
+      answer += cost;
     }
-    return answer;
+  }
+  return answer;
 }
