@@ -13,8 +13,6 @@ graph = graph.map((g, y) =>
     return v;
   })
 );
-// console.log(graph);
-// console.log(list);
 
 function check(v, y, x, graph) {
   for (let c = 0; c < 9; c++) {
