@@ -6,7 +6,7 @@ let input = fs
   .split("\n");
 
 const [[N], A, B] = input.map((v) => v.split(" ").map(Number));
-const dp = Array.from({length: N}, () => Array(N).fill(-1));
+const dp = Array.from({length: N + 1}, () => Array(N + 1).fill(-1));
 
 function game(a, b) {
   if (a === N || b === N) return 0; // 더미가 비면 종료
