@@ -1,39 +1,36 @@
 function solution(places) {
     var answer = [];
-    // 대기실 순회
-    for (let place of places){
-        let result = 1;
-        for(let y=0; y<5; y++){
-            for(let x=0; x<5; x++){
-                // 응시자일시 검사
-                if (place[y][x] === 'P' && !dfs(y,x,0,[[y,x]],place)){
-                    result = 0;
-                    break;
+    const offset = [[1,0], [0,1], [-1,0], [0,-1]];
+    
+    const checkSocialDistance = (place) => {
+        for(let x=0; x < 5; x++){
+            for(let y=0; y < 5; y++){
+                if(place[x][y] !== "P") continue;
+                
+                for(const [dx, dy] of offset){
+                    const [nx, ny] = [x + dx, y + dy];
+                    if(nx < 0 || nx >= 5 || ny < 0 || ny >= 5 || place[nx][ny] === "X") continue;
+                    if(place[nx][ny] === "P") return false;
+                    if(place[nx][ny] === "O" && countNearbyPeople(nx, ny, place) >= 2) return false;
                 }
             }
-            if (!result) break;
         }
-        answer.push(result);
+        return true;
     }
-    return answer;
-}
-
-function dfs(cy,cx,distance,path,place){
-    const direction = [[cy+1,cx],[cy-1,cx],[cy,cx+1],[cy,cx-1]];
-    let result = true;
     
-    for(let [dy,dx] of direction){
-        if (!path.some(p => p[0] === dy && p[1] === dx) && 0<=dy && dy < 5 && 0<=dx && dx < 5){
-            if (distance < 2 && place[dy][dx] === 'P') {
-                // 응시자가 있으면 탐색 종료
-                result = false;
-            }
-            else if (distance < 2 && place[dy][dx] === 'O'){
-                // 빈테이블이면 탐색 진행
-                result = dfs(dy,dx,distance+1,[...path,[dy,dx]],place);
-            }
+    const countNearbyPeople = (cx, cy, place) => {
+        let count = 0;
+        for(const [dx, dy] of offset){
+            const [nx, ny] = [cx + dx, cy + dy];
+            if(nx < 0 || nx >= 5 || ny < 0 || ny >= 5) continue;
+            count += place[nx][ny] === "P" ? 1 : 0;
         }
-        if (!result) break;
+        return count;
     }
-    return result
+    
+    for(const place of places){
+        answer.push(checkSocialDistance(place) ? 1 : 0);
+    }
+    
+    return answer;
 }
