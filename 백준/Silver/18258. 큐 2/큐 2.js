@@ -36,6 +36,11 @@ for (const line of ops) {
       out.push(f < q.length ? q[q.length - 1] : -1);
       break;
   }
+
+  if (f > 10000 && f * 2 > q.length) {
+    q = q.slice(f);
+    f = 0;
+  }
 }
 
 console.log(out.join("\n"));
