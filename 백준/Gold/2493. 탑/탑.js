@@ -10,12 +10,12 @@ const towers = inputs.split(" ").map(Number);
 const stack = [];
 let top = -1;
 
-for (let i = towers.length; i >= 0; i--) {
+for (let i = towers.length - 1; i >= 0; i--) {
   while (top >= 0 && towers[stack[top]] <= towers[i]) {
     out[stack.pop()] = i + 1;
     top--;
   }
-  stack.push([i]);
+  stack.push(i);
   top++;
 }
 
